@@ -132,7 +132,8 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px
 
 /* filmstrip */
 .film{position:relative;padding:clamp(28px,4vw,48px) 0;display:grid;gap:14px;overflow:hidden;background:radial-gradient(60% 100% at 50% 50%,rgba(255,35,64,.14),transparent 70%)}
-.frow{display:flex;gap:14px;width:max-content;padding:0 max(5vw,16px);will-change:transform}
+.frow{display:flex;width:max-content;will-change:transform}
+.frow img{margin-right:14px}
 .frow img{flex:none;height:clamp(170px,20vw,320px);width:auto;aspect-ratio:3/2;object-fit:cover;border-radius:16px;box-shadow:0 0 0 1px var(--line),0 20px 50px -20px rgba(255,35,64,.55);filter:saturate(1.1) contrast(1.05)}
 
 /* booking */
@@ -369,35 +370,32 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
   ];
   const keep = all.map((p, i) => ({ p, n: i + 2 })).filter(x => !HIDE.includes(x.n));
   const rows = { f1: keep.filter((x, i) => i % 2 === 0), f2: keep.filter((x, i) => i % 2 === 1) };
-  /* script driven so it works in every browser: row one drifts left while row two drifts right, then they swap */
+  /* constant speed, never pauses: top row runs left, bottom row runs right.
+     Each row has its own photos and is long enough that the same photo is never on screen twice. */
   const rowEls = Object.keys(rows).map(id => document.getElementById(id));
   rowEls.forEach(row => {
-    row.innerHTML = rows[row.id].map(x => `<img alt="Raphie live on stage" data-n="${x.n}" src="${base + x.p}" onerror="this.remove()">`).join('');
+    const set = rows[row.id].map(x => `<img alt="Raphie live on stage" data-n="${x.n}" src="${base + x.p}" onerror="this.remove()">`).join('');
+    row.innerHTML = set + set.replace(/alt="Raphie live on stage"/g, 'alt="" aria-hidden="true"');
   });
-  const film = document.getElementById('gallery');
-  let hover = false, phase = 0, last = performance.now();
-  film.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') hover = true; });
-  film.addEventListener('pointerleave', () => hover = false);
-  const SPEED = 60; /* pixels per second */
+  const SPEED = 90; /* pixels per second */
+  let pos = 0, last = performance.now();
   const step = now => {
-    const dt = Math.min(now - last, 100); last = now;
-    const far = Math.max(1, ...rowEls.map(r => r.scrollWidth - film.clientWidth));
-    if (!hover) phase += dt / (far * 2 / SPEED * 1000);
-    const k = 0.5 - 0.5 * Math.cos(phase * Math.PI * 2);
+    pos += Math.min(now - last, 100) / 1000 * SPEED; last = now;
     rowEls.forEach((row, i) => {
-      const d = row.scrollWidth - film.clientWidth;
-      if (d <= 0) { row.style.transform = `translateX(${-d / 2}px)`; return; }
-      const t = i % 2 ? 1 - k : k;
-      row.style.transform = `translateX(${(-d * t).toFixed(1)}px)`;
+      const W = row.scrollWidth / 2;
+      if (!W) return;
+      const o = pos % W;
+      row.style.transform = `translate3d(${i % 2 ? o - W : -o}px,0,0)`;
     });
     requestAnimationFrame(step);
   };
   if (!reduce) requestAnimationFrame(step);
 
-  if (location.hash === '#pick') {
+  const REVIEW = true; /* shows photo numbers; set to false before going live */
+  if (REVIEW || location.hash === '#pick') {
     const tag = (img, n) => { const w = document.createElement('span'); w.style.cssText = 'position:relative;flex:none;display:block'; const b = document.createElement('b'); b.textContent = n; b.style.cssText = 'position:absolute;top:8px;left:8px;z-index:5;background:#fff;color:#000;font:800 18px Inter;padding:2px 9px;border-radius:8px'; if (img.id === 'thumb') { img.parentElement.append(b); return; } img.before(w); w.append(img, b); };
     tag(document.getElementById('thumb'), 1);
-    document.querySelectorAll('.frow img').forEach(img => tag(img, img.dataset.n));
+    document.querySelectorAll('.frow img[data-n]').forEach(img => tag(img, img.dataset.n));
   }
   document.getElementById('yr').textContent = new Date().getFullYear();
 
