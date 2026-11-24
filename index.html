@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Raphie Rockstar Magic</title>
+<meta name="description" content="Raphie Rockstar Magic. Touring magician with a 40 dancer live show and over 1 billion views. Book the show.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: loud, confident, arena tour energy, few words
+   IDEA: a tour poster and backstage pass; the reel is the headliner
+   PICTURE: the highlight reel, huge, under stage light beams
+   COLOUR and TYPE: oxblood stage, bone white, electric red accent; Anton + Archivo
+   LAYOUT: nav, reel hero, stat strip, show, gallery, quotes, booking, footer */
+:root{color-scheme:dark;--bg:#14040a;--bg2:#1f0710;--ink:#f6efe9;--mute:#c9b6b0;--red:#ff2b3d;--line:rgba(246,239,233,.14)}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Archivo,system-ui,sans-serif;overflow-x:clip}
+a{color:inherit}
+img{max-width:100%}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding:clamp(48px,7vw,104px) max(5vw,16px)}
+h1,h2,h3{font-family:Anton,Impact,sans-serif;font-weight:400;line-height:1.02;margin:0;text-wrap:balance;letter-spacing:.01em}
+h2{font-size:clamp(36px,5.2vw,64px)}
+.lede{color:var(--mute);font-size:17px;max-width:60ch;margin:14px 0 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 26px;border-radius:999px;background:var(--red);color:#fff;font-weight:800;text-decoration:none;border:0;font-size:16px;cursor:pointer;font-family:inherit;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,43,61,.4)}
+.btn.ghost{background:transparent;border:2px solid var(--line)}
+.btn:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #fff;outline-offset:3px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:20;background:rgba(20,4,10,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px max(5vw,16px);flex-wrap:wrap}
+.logo{font-family:Anton,sans-serif;font-size:24px;text-decoration:none;letter-spacing:.02em}
+.logo span{color:var(--red)}
+.links{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.links a{text-decoration:none;font-weight:600;color:var(--mute)}
+.links a:hover{color:var(--ink)}
+.links .btn{min-height:42px;padding:0 20px;color:#fff}
+@media(max-width:700px){.links a:not(.btn){display:none}}
+
+/* hero */
+.hero{position:relative;padding:clamp(28px,4vw,56px) max(5vw,16px) clamp(48px,6vw,88px);overflow:hidden;isolation:isolate}
+.beams{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.beams svg{width:100%;height:100%}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(20px,3vw,36px)}
+.hero h1{font-size:clamp(54px,10vw,148px);line-height:.92}
+.hero h1 em{font-style:normal;color:var(--red);display:block}
+.hero .tag{max-width:34ch;color:var(--mute);font-size:18px;margin:0}
+.hero .tag b{color:var(--ink)}
+.reel{position:relative;aspect-ratio:16/9;border-radius:18px;overflow:hidden;background:radial-gradient(120% 90% at 50% 20%,#5a0d1b,#14040a 70%);box-shadow:0 40px 120px -20px rgba(255,43,61,.45),0 0 0 1px var(--line)}
+.reel iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.poster{position:absolute;inset:0;display:grid;place-items:center;cursor:pointer;border:0;padding:0;width:100%;background:linear-gradient(180deg,rgba(20,4,10,.1),rgba(20,4,10,.7)),url("https://i.ytimg.com/vi/aIcwgtWiZ5g/maxresdefault.jpg") center/cover,radial-gradient(120% 90% at 50% 20%,#6a1020,#14040a 70%);color:#fff;font:inherit}
+.play{width:clamp(76px,10vw,112px);aspect-ratio:1;border-radius:50%;background:var(--red);display:grid;place-items:center;box-shadow:0 0 0 0 rgba(255,43,61,.7);animation:pulse 2.2s infinite}
+.play svg{width:38%;margin-left:8%}
+.poster .cap{position:absolute;left:clamp(16px,3vw,32px);bottom:clamp(14px,3vw,28px);text-align:left}
+.poster .cap b{display:block;font-family:Anton,sans-serif;font-size:clamp(22px,3vw,36px);font-weight:400}
+.poster .cap small{color:var(--mute);font-size:14px}
+@keyframes pulse{70%{box-shadow:0 0 0 26px rgba(255,43,61,0)}100%{box-shadow:0 0 0 0 rgba(255,43,61,0)}}
+.under{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;align-items:center}
+.under a.yt{color:var(--mute);font-size:14px;margin-left:auto}
+@media(max-width:600px){.under a.yt{margin-left:0}}
+
+/* stats */
+.stats{border-block:1px solid var(--line);background:var(--bg2)}
+.stats .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:0 max(5vw,16px)}
+.stat{padding:28px 12px;text-align:center;border-inline-start:1px solid var(--line)}
+.stat:first-child{border:0}
+.stat b{display:block;font-family:Anton,sans-serif;font-weight:400;font-size:clamp(36px,5vw,60px);line-height:1;color:var(--ink)}
+.stat b i{font-style:normal;color:var(--red)}
+.stat span{color:var(--mute);font-size:14px}
+@media(max-width:700px){.stats .wrap{grid-template-columns:repeat(2,minmax(0,1fr))}.stat:nth-child(3){border:0}.stat:nth-child(n+3){border-top:1px solid var(--line)}}
+
+/* show */
+.show-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:40px}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:28px}
+.card .n{font-family:Anton,sans-serif;font-size:48px;color:var(--red);line-height:1}
+.card h3{font-size:28px;margin:0 0 8px;color:var(--ink)}.card{border-top:3px solid var(--red)}
+.card p{margin:0;color:var(--mute)}
+@media(max-width:860px){.show-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* gallery */
+.gal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:clamp(150px,18vw,240px);gap:10px;margin-top:40px}
+.gal div{border-radius:12px;background-size:cover;background-position:center;background-color:#3a0a14}
+.gal div:nth-child(1){grid-column:span 2;grid-row:span 2}
+.gal div:nth-child(4){grid-row:span 2}
+@media(max-width:600px){.gal{grid-template-columns:repeat(2,minmax(0,1fr))}.gal div:nth-child(4){grid-row:auto}}
+
+/* quotes */
+.quotes{background:var(--bg2)}
+.q-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:40px}
+blockquote{margin:0;padding:24px;border-radius:16px;border:1px solid var(--line);background:var(--bg)}
+blockquote p{margin:0 0 14px;font-size:17px}
+blockquote cite{font-style:normal;color:var(--red);font-weight:800;font-size:14px}
+@media(max-width:960px){.q-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.q-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* book */
+.book .wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,72px);align-items:start}
+.contact{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:14px}
+.contact li{display:flex;flex-direction:column}
+.contact small{color:var(--mute);font-size:13px}
+.contact a{font-weight:800;font-size:18px;text-decoration:none;overflow-wrap:anywhere}
+form{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,3vw,36px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.f{display:flex;flex-direction:column;gap:6px}
+.f.full{grid-column:1/-1}
+label{font-size:14px;font-weight:600;color:var(--mute)}
+input,select,textarea{font:16px Archivo,sans-serif;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;min-height:48px;width:100%}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--mute) 50%),linear-gradient(-45deg,transparent 50%,var(--mute) 50%);background-position:calc(100% - 20px) 21px,calc(100% - 14px) 21px;background-size:6px 6px;background-repeat:no-repeat}
+textarea{min-height:120px;resize:vertical}
+form .btn{grid-column:1/-1;width:100%}
+.status{grid-column:1/-1;margin:0;font-weight:600;min-height:1.5em}
+.status.ok{color:#7dffa8}.status.err{color:#ffb0b7}
+.hp{display:none}
+@media(max-width:860px){.book .wrap{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:520px){form{grid-template-columns:minmax(0,1fr)}}
+
+footer{border-top:1px solid var(--line);padding:32px max(5vw,16px)}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center;color:var(--mute);font-size:14px}
+.soc{display:flex;gap:10px}
+.soc a{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center}
+.soc a:hover{background:var(--red);border-color:var(--red)}
+.soc svg{width:20px;height:20px;fill:currentColor}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top">RAPHIE <span>ROCKSTAR</span> MAGIC</a>
+    <div class="links">
+      <a href="#show">The Show</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#reviews">Reviews</a>
+      <a class="btn" href="#book">Book Raphie</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="beams" aria-hidden="true">
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMin slice">
+      <defs>
+        <linearGradient id="bm" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ff2b3d" stop-opacity=".55"/>
+          <stop offset="1" stop-color="#ff2b3d" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="bw" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <polygon points="120,0 170,0 520,800 160,800" fill="url(#bm)"/>
+      <polygon points="1030,0 1080,0 1040,800 680,800" fill="url(#bm)"/>
+      <polygon points="575,0 625,0 820,800 380,800" fill="url(#bw)"/>
+      <polygon points="330,0 360,0 300,800 60,800" fill="url(#bw)" opacity=".6"/>
+      <polygon points="840,0 870,0 1140,800 900,800" fill="url(#bw)" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="hero-top">
+      <h1>Raphie<em>Rockstar Magic</em></h1>
+      <p class="tag"><b>1 billion views. 40 dancers. One magician.</b> A touring illusion show built like a rock concert.</p>
+    </div>
+
+    <div class="reel" id="reel">
+      <button class="poster" id="playReel" aria-label="Play the Raphie Rockstar Magic highlight reel">
+        <span class="play"><svg viewBox="0 0 24 24" fill="#fff"><path d="M4 2l18 10L4 22z"/></svg></span>
+        <span class="cap"><b>Watch the highlight reel</b><small>See the show live in under three minutes</small></span>
+      </button>
+    </div>
+
+    <div class="under">
+      <a class="btn" href="#book">Book the show</a>
+      <a class="btn ghost" href="#show">What you get</a>
+      <a class="yt" href="https://youtu.be/aIcwgtWiZ5g" target="_blank" rel="noopener">Open on YouTube ↗</a>
+    </div>
+  </div>
+</header>
+
+<section class="stats" aria-label="Highlights">
+  <div class="wrap">
+    <div class="stat"><b>1B<i>+</i></b><span>views online</span></div>
+    <div class="stat"><b>40</b><span>live dancers</span></div>
+    <div class="stat"><b>On<i>.</i></b><span>tour now</span></div>
+    <div class="stat"><b>MTL</b><span>born and based</span></div>
+  </div>
+</section>
+
+<section class="band" id="show">
+  <div class="wrap">
+    <h2>Not a magic show. A concert with illusions.</h2>
+    <p class="lede">Raphie blends cinematic storytelling, big stage illusions and a full dance company into one high energy production. Your audience will talk about it for years.</p>
+    <div class="show-grid">
+      <div class="card"><h3>The Tour Show</h3><p>The full production with 40 dancers, lights and stage illusions. Built for theatres, festivals and arenas.</p></div>
+      <div class="card"><h3>Corporate Events</h3><p>A headline act for galas, launches and conferences. Scaled to your stage and your crowd.</p></div>
+      <div class="card"><h3>Private Events</h3><p>Weddings, bar and bat mitzvahs, birthdays. Up close magic that gets kids and adults screaming.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="gallery" style="padding-top:0">
+  <div class="wrap">
+    <h2>Live on stage</h2>
+    <div class="gal" id="gal"></div>
+  </div>
+</section>
+
+<section class="band quotes" id="reviews">
+  <div class="wrap">
+    <h2>What people say</h2>
+    <div class="q-grid">
+      <blockquote><p>“Thanks again for yesterday's performance. The kids and the adults loved the show!”</p><cite>Michalangelo</cite></blockquote>
+      <blockquote><p>“Such a great show! You are so talented and are going to go so far in life.”</p><cite>Inder</cite></blockquote>
+      <blockquote><p>“You freaked out the kids with your performances. They thought you were the coolest!”</p><cite>Gina, Bar Mitzvah</cite></blockquote>
+      <blockquote><p>“You killed it tonight!!!!”</p><cite>Fest GP Crescent</cite></blockquote>
+    </div>
+  </div>
+</section>
+
+<section class="band book" id="book">
+  <div class="wrap">
+    <div>
+      <h2>Book Raphie</h2>
+      <p class="lede">Tell us about your event and we will get back to you fast with dates and options.</p>
+      <ul class="contact">
+        <li><small>Call or text</small><a href="tel:+15142628293">514 262 8293</a></li>
+        <li><small>Email</small><a href="mailto:raphlaf100@gmail.com">raphlaf100@gmail.com</a></li>
+        <li><small>Based in</small><b style="font-size:18px">Montreal, touring everywhere</b></li>
+      </ul>
+    </div>
+
+    <form id="bookForm" novalidate>
+      <input type="hidden" name="access_key" value="337278a5-6f52-4466-9abe-6c767c555693">
+      <input type="hidden" name="subject" value="New booking inquiry: Raphie Rockstar Magic">
+      <input type="hidden" name="from_name" value="Raphie Rockstar Magic website">
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+      <div class="f"><label for="name">Name</label><input id="name" name="name" required autocomplete="name"></div>
+      <div class="f"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email"></div>
+      <div class="f"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel"></div>
+      <div class="f"><label for="type">Event type</label>
+        <select id="type" name="event_type">
+          <option>Tour or theatre show</option>
+          <option>Corporate event</option>
+          <option>Festival</option>
+          <option>Wedding</option>
+          <option>Bar or bat mitzvah</option>
+          <option>Birthday or private party</option>
+          <option>Other</option>
+        </select></div>
+      <div class="f"><label for="date">Event date</label><input id="date" name="event_date" type="date"></div>
+      <div class="f"><label for="loc">Event location</label><input id="loc" name="event_location" placeholder="City or venue"></div>
+      <div class="f full"><label for="msg">Tell us more</label><textarea id="msg" name="message" placeholder="Audience size, time, budget, anything else"></textarea></div>
+      <button class="btn" type="submit" id="sendBtn">Send booking request</button>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr">2026</span> Raphie Rockstar Magic. Montreal, Canada.</span>
+    <div class="soc">
+      <a href="https://www.instagram.com/raphael.laferrara/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm0 2a3 3 0 00-3 3v10a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3zm5 3.5a4.5 4.5 0 110 9 4.5 4.5 0 010-9zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM17.5 5.5a1 1 0 110 2 1 1 0 010-2z"/></svg></a>
+      <a href="https://www.youtube.com/@raphie" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23 7.2a3 3 0 00-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 001 7.2 31 31 0 00.5 12a31 31 0 00.5 4.8 3 3 0 002.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 002.1-2.1 31 31 0 00.5-4.8 31 31 0 00-.5-4.8zM9.6 15V9l5.8 3z"/></svg></a>
+      <a href="https://www.facebook.com/raphael.laferrara.5" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8V6.2c0-.8.2-1.2 1.4-1.2H17V2h-2.6C11.3 2 10 3.5 10 6v2H8v3h2v11h4V11h2.7l.3-3z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+{
+  const base = 'https://raphaellaferrara.ca/wp-content/uploads/';
+  const pics = ['2025/07/IMG_0115-scaled.jpg','2025/06/B2084D48-B760-4221-8E69-71857BF46414.jpg','2025/07/IMG_0120-scaled.jpg','2025/06/IMG_7105-2-scaled.jpg','2025/07/IMG_0100-scaled.jpg','2025/07/IMG_4215.jpg','2025/07/IMG_0126-scaled.jpg','2025/07/IMG_3007.jpg'];
+  const tones = ['#5a0d1b','#3a0a14','#7a1222','#2a0610','#4d0b18','#66101f','#33070f','#58101d'];
+  document.getElementById('gal').innerHTML = pics.map((p, i) =>
+    `<div role="img" aria-label="Raphie performing live" style="background-image:url('${base + p}'),linear-gradient(160deg,${tones[i]},#14040a)"></div>`
+  ).join('');
+
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  const reel = document.getElementById('reel');
+  document.getElementById('playReel').addEventListener('click', () => {
+    const f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/aIcwgtWiZ5g?autoplay=1&rel=0&modestbranding=1';
+    f.title = 'Raphie Rockstar Magic highlight reel';
+    f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+    f.allowFullscreen = true;
+    reel.innerHTML = '';
+    reel.appendChild(f);
+  });
+
+  const form = document.getElementById('bookForm');
+  const status = document.getElementById('status');
+  const btn = document.getElementById('sendBtn');
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const name = form.name.value.trim(), email = form.email.value.trim();
+    if (!name || !/^\S+@\S+\.\S+$/.test(email)) {
+      status.className = 'status err';
+      status.textContent = 'Please add your name and a valid email.';
+      return;
+    }
+    btn.disabled = true; btn.textContent = 'Sending…';
+    status.className = 'status'; status.textContent = '';
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form)))
+      });
+      const out = await res.json();
+      if (!out.success) throw new Error(out.message);
+      status.className = 'status ok';
+      status.textContent = 'Got it! Raphie\'s team will be in touch shortly.';
+      form.reset();
+    } catch (err) {
+      status.className = 'status err';
+      status.textContent = 'Could not send right now. Email raphlaf100@gmail.com or call 514 262 8293.';
+    } finally {
+      btn.disabled = false; btn.textContent = 'Send booking request';
+    }
+  });
+}
+</script>
+</body>
+</html>
