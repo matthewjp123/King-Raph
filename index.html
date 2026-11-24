@@ -133,9 +133,10 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px
 /* filmstrip */
 .film{position:relative;padding:clamp(28px,4vw,48px) 0;display:grid;gap:14px;overflow:hidden;background:radial-gradient(60% 100% at 50% 50%,rgba(255,35,64,.14),transparent 70%)}
 .frow{display:flex;gap:14px;width:max-content;padding:0 max(5vw,16px);animation:pan 26s ease-in-out infinite alternate}
+.frow.rev{animation-direction:alternate-reverse;animation-duration:30s}
 .frow.still{animation:none;transform:translateX(var(--x0,0))}
 @keyframes pan{from{transform:translateX(0)}to{transform:translateX(var(--shift,0))}}
-.frow img{flex:none;height:clamp(170px,22vw,300px);width:auto;aspect-ratio:4/3;object-fit:cover;border-radius:16px;box-shadow:0 0 0 1px var(--line),0 20px 50px -20px rgba(255,35,64,.55);filter:saturate(1.1) contrast(1.05)}
+.frow img{flex:none;height:clamp(170px,20vw,320px);width:auto;aspect-ratio:3/2;object-fit:cover;border-radius:16px;box-shadow:0 0 0 1px var(--line),0 20px 50px -20px rgba(255,35,64,.55);filter:saturate(1.1) contrast(1.05)}
 .film:hover .frow{animation-play-state:paused}
 
 /* booking */
@@ -245,6 +246,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 
 <section class="film" id="gallery" aria-label="Show photos">
   <div class="frow" id="f1"></div>
+  <div class="frow rev" id="f2"></div>
 </section>
 
 <section class="band" id="show">
@@ -359,17 +361,25 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
   document.getElementById('track').innerHTML = row + row + row + row;
 
   /* gallery */
-  const strip = ['2025/07/IMG_0120-scaled.jpg','2025/07/IMG_0085-scaled.jpg','2025/07/IMG_0126-scaled.jpg','2025/07/IMG_0100-scaled.jpg','2025/07/IMG_0109-scaled.jpg'];
-  const frow = document.getElementById('f1');
-  frow.innerHTML = strip.map(p => `<img alt="Raphie live on stage" src="${base + p}" onerror="this.remove()">`).join('');
-  const pan = () => {
-    const d = frow.scrollWidth - frow.parentElement.clientWidth;
-    frow.style.setProperty('--shift', (d > 0 ? -d : 0) + 'px');
-    frow.style.setProperty('--x0', (d > 0 ? 0 : (-d / 2)) + 'px');
-    frow.classList.toggle('still', d <= 0);
+  /* two rows sliding opposite ways; each row pans back and forth instead of looping, so photos barely repeat */
+  const rows = {
+    f1: ['2025/07/IMG_0120-scaled.jpg','2025/07/IMG_0085-scaled.jpg','2025/07/IMG_0126-scaled.jpg','2025/07/IMG_0100-scaled.jpg'],
+    f2: ['2025/07/IMG_0126-scaled.jpg','2025/07/IMG_0109-scaled.jpg','2025/07/IMG_0115-scaled.jpg','2025/07/IMG_0085-scaled.jpg']
   };
-  const panRO = new ResizeObserver(pan); panRO.observe(frow); panRO.observe(frow.parentElement);
-  frow.querySelectorAll('img').forEach(i => i.addEventListener('load', pan));
+  const pans = [];
+  for (const id in rows) {
+    const row = document.getElementById(id);
+    row.innerHTML = rows[id].map(p => `<img alt="Raphie live on stage" src="${base + p}" onerror="this.remove()">`).join('');
+    const pan = () => {
+      const d = row.scrollWidth - row.parentElement.clientWidth;
+      row.style.setProperty('--shift', (d > 0 ? -d : 0) + 'px');
+      row.style.setProperty('--x0', (d > 0 ? 0 : -d / 2) + 'px');
+      row.classList.toggle('still', d <= 0);
+    };
+    const ro = new ResizeObserver(pan); ro.observe(row); ro.observe(row.parentElement);
+    row.querySelectorAll('img').forEach(i => i.addEventListener('load', pan));
+    pans.push(ro);
+  }
 
   if (location.hash === '#pick') {
     const all = [...document.querySelectorAll('.frow img,#thumb')];
