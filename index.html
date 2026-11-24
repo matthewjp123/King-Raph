@@ -361,7 +361,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
   /* two rows sliding opposite ways; each row pans back and forth instead of looping, so photos barely repeat */
   /* every photo from his site appears once: the reel cover plus two rows with no overlap.
      To drop a photo, add its number (open the page with #pick to see numbers) to HIDE. */
-  const HIDE = [];
+  const HIDE = [6, 9, 11, 15];
   const all = [
     '2025/07/IMG_0120-scaled.jpg','2025/06/B2084D48-B760-4221-8E69-71857BF46414.jpg','2025/07/IMG_0085-scaled.jpg','2025/07/4CC94CEA-4FBC-4A48-8DC6-5A330347DA1B.jpg','2025/06/IMG_7105-2-scaled.jpg',
     '2025/07/IMG_0309.jpg','2025/07/IMG_0126-scaled.jpg','2025/06/30C97C3C-4C97-4ADA-A1B4-14BCC851B195.jpg','2025/07/IMG_4215.jpg','2025/06/image0000031.jpg',
@@ -391,7 +391,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
   };
   if (!reduce) requestAnimationFrame(step);
 
-  const REVIEW = true; /* shows photo numbers; set to false before going live */
+  const REVIEW = false; /* shows photo numbers; set to false before going live */
   if (REVIEW || location.hash === '#pick') {
     const tag = (img, n) => { const w = document.createElement('span'); w.style.cssText = 'position:relative;flex:none;display:block'; const b = document.createElement('b'); b.textContent = n; b.style.cssText = 'position:absolute;top:8px;left:8px;z-index:5;background:#fff;color:#000;font:800 18px Inter;padding:2px 9px;border-radius:8px'; if (img.id === 'thumb') { img.parentElement.append(b); return; } img.before(w); w.append(img, b); };
     tag(document.getElementById('thumb'), 1);
