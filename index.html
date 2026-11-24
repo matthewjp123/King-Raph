@@ -28,7 +28,7 @@ h1,h2,h3{font-family:Anton,Impact,sans-serif;font-weight:400;line-height:1;margi
 h2{font-size:clamp(40px,6vw,76px)}
 .chrome{background:linear-gradient(180deg,#fff 0%,#ffe9ef 45%,#ff8fa6 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 24px rgba(255,35,64,.45))}
 .glow{color:var(--red);text-shadow:0 0 12px rgba(255,35,64,.9),0 0 42px rgba(255,35,64,.6),0 0 90px rgba(255,63,164,.4)}
-.kicker{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:14px;color:var(--gold)}
+.kicker{text-shadow:0 2px 10px rgba(0,0,0,.9);display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:14px;color:var(--gold)}
 .kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red),0 0 20px var(--red);animation:blink 1.6s infinite}
 @keyframes blink{50%{opacity:.35}}
 .lede{color:var(--mute);font-size:18px;max-width:58ch;margin:18px 0 0}
@@ -60,7 +60,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px
 @keyframes drift{to{transform:translate(6vw,4vw) scale(1.15)}}
 .beam{position:absolute;top:-10%;width:22vw;max-width:360px;height:130%;transform-origin:50% 0;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,80,120,.18) 40%,transparent 85%);clip-path:polygon(46% 0,54% 0,100% 100%,0 100%);mix-blend-mode:screen;filter:blur(6px);animation:sweep 9s ease-in-out infinite alternate}
 .b1{left:8%;--a:-28deg;--b:8deg}
-.b2{left:40%;--a:14deg;--b:-14deg;animation-duration:11s;background:linear-gradient(180deg,rgba(255,60,90,.7),rgba(255,35,64,.15) 45%,transparent 85%)}
+.b2{left:40%;--a:14deg;--b:-14deg;animation-duration:11s;opacity:.55}
 .b3{right:8%;--a:26deg;--b:-6deg;animation-duration:8s}
 .b4{left:24%;--a:-8deg;--b:22deg;animation-duration:13s;background:linear-gradient(180deg,rgba(255,63,164,.6),rgba(255,63,164,.12) 45%,transparent 85%)}
 @keyframes sweep{from{transform:rotate(var(--a))}to{transform:rotate(var(--b))}}
@@ -72,8 +72,11 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px
 
 .hero-head{text-align:center;margin:0 auto clamp(28px,4vw,48px);max-width:1000px}
 .hero h1{font-size:clamp(58px,11vw,168px);line-height:.88;margin-top:14px}
-.hero h1 .glow{display:block;font-size:.62em;letter-spacing:.06em}
-.hero .tag{color:var(--mute);font-size:clamp(17px,1.6vw,20px);margin:22px auto 0;max-width:44ch}
+.hero h1 .neon{display:block;font-size:.62em;letter-spacing:.06em;color:#fff;text-shadow:0 0 1px #fff,0 0 8px rgba(255,35,64,.95),0 0 22px rgba(255,35,64,.85),0 0 48px rgba(255,35,64,.6),0 4px 18px rgba(0,0,0,.9)}
+.hero-head{position:relative;isolation:isolate}
+.hero-head::before{content:"";position:absolute;inset:-12% -18%;z-index:-1;background:radial-gradient(closest-side,rgba(7,3,10,.88),rgba(7,3,10,.55) 60%,transparent);pointer-events:none}
+.hero h1 .chrome{filter:drop-shadow(0 4px 20px rgba(0,0,0,.85)) drop-shadow(0 0 22px rgba(255,35,64,.35))}
+.hero .tag{color:#efe4e8;text-shadow:0 2px 12px rgba(0,0,0,.9);font-size:clamp(17px,1.6vw,20px);margin:22px auto 0;max-width:44ch}
 .hero .tag b{color:#fff;font-weight:700}
 
 .reel-wrap{position:relative;max-width:1100px;margin:0 auto;width:100%}
@@ -134,13 +137,22 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px
 .gal figure::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(255,35,64,.35));mix-blend-mode:screen;opacity:0;transition:opacity .5s}
 .gal figure:hover img{transform:scale(1.07)}
 .gal figure:hover::after{opacity:1}
+.gal figure{grid-column:span 2}
 .gal figure:nth-child(1){grid-column:span 4;grid-row:span 2}
-.gal figure:nth-child(2),.gal figure:nth-child(3){grid-column:span 2}
-.gal figure:nth-child(n+4){grid-column:span 2}
-@media(max-width:700px){.gal{grid-template-columns:repeat(2,minmax(0,1fr))}.gal figure:nth-child(n){grid-column:span 1;grid-row:auto}.gal figure:nth-child(1){grid-column:span 2;grid-row:span 2}}
+.gal figure:nth-child(7),.gal figure:nth-child(8){grid-column:span 3;grid-row:span 2}
+.gal figure:nth-child(9),.gal figure:nth-child(10){grid-column:span 3}
+@media(max-width:700px){.gal{grid-template-columns:repeat(2,minmax(0,1fr))}.gal figure:nth-child(n){grid-column:span 1;grid-row:auto}.gal figure:nth-child(1),.gal figure:nth-child(10){grid-column:span 2}.gal figure:nth-child(1){grid-row:span 2}}
+
+/* filmstrip */
+.film{padding:clamp(28px,4vw,48px) 0;display:grid;gap:14px;overflow:hidden;background:radial-gradient(60% 100% at 50% 50%,rgba(255,35,64,.14),transparent 70%)}
+.frow{display:flex;gap:14px;width:max-content;animation:roll 60s linear infinite}
+.frow.rev{animation-direction:reverse;animation-duration:70s}
+.frow img{height:clamp(170px,22vw,300px);width:auto;aspect-ratio:4/3;object-fit:cover;border-radius:16px;box-shadow:0 0 0 1px var(--line),0 20px 50px -20px rgba(255,35,64,.55);filter:saturate(1.1) contrast(1.05)}
+.film:hover .frow{animation-play-state:paused}
 
 /* booking */
 .book{overflow:hidden;isolation:isolate}
+.book::after{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,var(--bg) 0%,rgba(7,3,10,.82) 30%,rgba(7,3,10,.9) 100%),url("https://raphaellaferrara.ca/wp-content/uploads/2025/06/IMG_7105-2-scaled.jpg") center/cover}
 .book::before{content:"";position:absolute;inset:auto -20% -40% -20%;height:90%;background:radial-gradient(50% 60% at 50% 100%,rgba(255,35,64,.35),transparent 70%);z-index:-1}
 .book .wrap{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(32px,5vw,80px);align-items:start}
 @media(max-width:900px){.book .wrap{grid-template-columns:minmax(0,1fr)}}
@@ -203,14 +215,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 
   <div class="hero-head">
     <span class="kicker">Now booking the live tour</span>
-    <h1><span class="chrome">Raphie</span><span class="glow">Rockstar Magic</span></h1>
+    <h1><span class="chrome">Raphie</span><span class="neon">Rockstar Magic</span></h1>
     <p class="tag"><b>40 dancers. Grand illusions. Arena lights.</b> The magic show built like a rock concert.</p>
   </div>
 
   <div class="reel-wrap">
     <div class="reel" id="reel">
       <button class="poster" id="playReel" aria-label="Play the highlight reel">
-        <img id="thumb" alt="" src="https://i.ytimg.com/vi/aIcwgtWiZ5g/hqdefault.jpg">
+        <img id="thumb" alt="Raphie live on stage">
         <span class="play"><svg viewBox="0 0 24 24" fill="#fff"><path d="M5 3l16 9L5 21z"/></svg></span>
         <span class="cap"><b>Watch the highlight reel</b><small>Sound on</small></span>
       </button>
@@ -226,6 +238,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 <div class="marquee" aria-hidden="true">
   <div class="track" id="track"></div>
 </div>
+
+<section class="film" aria-label="Show photos">
+  <div class="frow" id="f1"></div>
+  <div class="frow rev" id="f2"></div>
+</section>
 
 <section class="band" id="show">
   <div class="wrap">
@@ -330,16 +347,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
   const VID = 'aIcwgtWiZ5g';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* thumbnail: try the sharpest version, fall back safely (YouTube serves a 120px grey image when maxres is missing) */
+  /* poster: sharp stage photo first, then YouTube's own thumbnails */
+  const base = 'https://raphaellaferrara.ca/wp-content/uploads/';
   const thumb = document.getElementById('thumb');
-  const tryHi = (q, next) => {
-    const t = new Image();
-    t.onload = () => { if (t.naturalWidth > 200) thumb.src = t.src; else if (next) next(); };
-    t.onerror = () => next && next();
-    t.src = `https://i.ytimg.com/vi/${VID}/${q}.jpg`;
-  };
-  tryHi('maxresdefault', () => tryHi('sddefault'));
-  thumb.onerror = () => { thumb.remove(); };
+  const posters = [base + '2025/07/IMG_0115-scaled.jpg', `https://i.ytimg.com/vi/${VID}/maxresdefault.jpg`, `https://i.ytimg.com/vi/${VID}/hqdefault.jpg`];
+  let pi = 0;
+  thumb.onerror = () => { pi++; if (pi < posters.length) thumb.src = posters[pi]; else thumb.remove(); };
+  thumb.onload = () => { if (thumb.naturalWidth < 200) thumb.onerror(); };
+  thumb.src = posters[0];
 
   /* click to play */
   const reel = document.getElementById('reel');
@@ -359,8 +374,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
   document.getElementById('track').innerHTML = row + row + row + row;
 
   /* gallery */
-  const base = 'https://raphaellaferrara.ca/wp-content/uploads/';
-  const pics = ['2025/07/IMG_0115-scaled.jpg','2025/07/IMG_0120-scaled.jpg','2025/07/IMG_0100-scaled.jpg','2025/07/IMG_0126-scaled.jpg','2025/07/IMG_0109-scaled.jpg','2025/07/IMG_0085-scaled.jpg'];
+  const pics = ['2025/07/IMG_0120-scaled.jpg','2025/07/IMG_0100-scaled.jpg','2025/07/IMG_0126-scaled.jpg','2025/07/IMG_0109-scaled.jpg','2025/07/IMG_0085-scaled.jpg','2025/06/IMG_7105-2-scaled.jpg','2025/06/IMG_7104-scaled.jpg','2025/07/IMG_0309.jpg','2025/07/IMG_3007.jpg','2025/07/IMG_4215.jpg'];
+  const strip1 = ['2025/06/B2084D48-B760-4221-8E69-71857BF46414.jpg','2025/06/86688313-153A-46B0-9C46-CB8608742009.jpg','2025/07/IMG_0115-scaled.jpg','2025/06/6495FF02-307B-48DA-9A31-16D7997AC838.jpg','2025/07/IMG_0120-scaled.jpg','2025/06/30C97C3C-4C97-4ADA-A1B4-14BCC851B195.jpg'];
+  const strip2 = ['2025/07/4CC94CEA-4FBC-4A48-8DC6-5A330347DA1B.jpg','2025/07/D281C764-A072-4431-9804-2C0EFED32C6A.jpg','2025/06/image0000031.jpg','2025/07/IMG_0126-scaled.jpg','2025/06/IMG_6644-e1751275892689-1024x1005.jpg','2025/07/IMG_0100-scaled.jpg'];
+  const film = (list, id) => { const h = list.map(p => `<img loading="lazy" alt="" src="${base + p}" onerror="this.remove()">`).join(''); document.getElementById(id).innerHTML = h + h; };
+  film(strip1, 'f1'); film(strip2, 'f2');
   document.getElementById('gal').innerHTML = pics.map(p =>
     `<figure class="reveal"><img loading="lazy" alt="Raphie live on stage" src="${base + p}" onerror="this.remove()"></figure>`
   ).join('');
