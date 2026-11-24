@@ -132,12 +132,8 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px
 
 /* filmstrip */
 .film{position:relative;padding:clamp(28px,4vw,48px) 0;display:grid;gap:14px;overflow:hidden;background:radial-gradient(60% 100% at 50% 50%,rgba(255,35,64,.14),transparent 70%)}
-.frow{display:flex;gap:14px;width:max-content;padding:0 max(5vw,16px);animation:pan 26s ease-in-out infinite alternate}
-.frow.rev{animation-direction:alternate-reverse;animation-duration:30s}
-.frow.still{animation:none;transform:translateX(var(--x0,0))}
-@keyframes pan{from{transform:translateX(0)}to{transform:translateX(var(--shift,0))}}
+.frow{display:flex;gap:14px;width:max-content;padding:0 max(5vw,16px);will-change:transform}
 .frow img{flex:none;height:clamp(170px,20vw,320px);width:auto;aspect-ratio:3/2;object-fit:cover;border-radius:16px;box-shadow:0 0 0 1px var(--line),0 20px 50px -20px rgba(255,35,64,.55);filter:saturate(1.1) contrast(1.05)}
-.film:hover .frow{animation-play-state:paused}
 
 /* booking */
 .book{overflow:hidden;isolation:isolate}
@@ -362,29 +358,46 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 
   /* gallery */
   /* two rows sliding opposite ways; each row pans back and forth instead of looping, so photos barely repeat */
-  const rows = {
-    f1: ['2025/07/IMG_0120-scaled.jpg','2025/07/IMG_0085-scaled.jpg','2025/07/IMG_0126-scaled.jpg','2025/07/IMG_0100-scaled.jpg'],
-    f2: ['2025/07/IMG_0126-scaled.jpg','2025/07/IMG_0109-scaled.jpg','2025/07/IMG_0115-scaled.jpg','2025/07/IMG_0085-scaled.jpg']
+  /* every photo from his site appears once: the reel cover plus two rows with no overlap.
+     To drop a photo, add its number (open the page with #pick to see numbers) to HIDE. */
+  const HIDE = [];
+  const all = [
+    '2025/07/IMG_0120-scaled.jpg','2025/06/B2084D48-B760-4221-8E69-71857BF46414.jpg','2025/07/IMG_0085-scaled.jpg','2025/07/4CC94CEA-4FBC-4A48-8DC6-5A330347DA1B.jpg','2025/06/IMG_7105-2-scaled.jpg',
+    '2025/07/IMG_0309.jpg','2025/07/IMG_0126-scaled.jpg','2025/06/30C97C3C-4C97-4ADA-A1B4-14BCC851B195.jpg','2025/07/IMG_4215.jpg','2025/06/image0000031.jpg',
+    '2025/07/IMG_0100-scaled.jpg','2025/06/86688313-153A-46B0-9C46-CB8608742009.jpg','2025/07/D281C764-A072-4431-9804-2C0EFED32C6A.jpg','2025/06/IMG_7104-scaled.jpg','2025/07/IMG_0109-scaled.jpg',
+    '2025/06/6495FF02-307B-48DA-9A31-16D7997AC838.jpg','2025/07/IMG_3007.jpg','2025/06/IMG_6644-e1751275892689-1024x1005.jpg'
+  ];
+  const keep = all.map((p, i) => ({ p, n: i + 2 })).filter(x => !HIDE.includes(x.n));
+  const rows = { f1: keep.filter((x, i) => i % 2 === 0), f2: keep.filter((x, i) => i % 2 === 1) };
+  /* script driven so it works in every browser: row one drifts left while row two drifts right, then they swap */
+  const rowEls = Object.keys(rows).map(id => document.getElementById(id));
+  rowEls.forEach(row => {
+    row.innerHTML = rows[row.id].map(x => `<img alt="Raphie live on stage" data-n="${x.n}" src="${base + x.p}" onerror="this.remove()">`).join('');
+  });
+  const film = document.getElementById('gallery');
+  let hover = false, phase = 0, last = performance.now();
+  film.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') hover = true; });
+  film.addEventListener('pointerleave', () => hover = false);
+  const SPEED = 60; /* pixels per second */
+  const step = now => {
+    const dt = Math.min(now - last, 100); last = now;
+    const far = Math.max(1, ...rowEls.map(r => r.scrollWidth - film.clientWidth));
+    if (!hover) phase += dt / (far * 2 / SPEED * 1000);
+    const k = 0.5 - 0.5 * Math.cos(phase * Math.PI * 2);
+    rowEls.forEach((row, i) => {
+      const d = row.scrollWidth - film.clientWidth;
+      if (d <= 0) { row.style.transform = `translateX(${-d / 2}px)`; return; }
+      const t = i % 2 ? 1 - k : k;
+      row.style.transform = `translateX(${(-d * t).toFixed(1)}px)`;
+    });
+    requestAnimationFrame(step);
   };
-  const pans = [];
-  for (const id in rows) {
-    const row = document.getElementById(id);
-    row.innerHTML = rows[id].map(p => `<img alt="Raphie live on stage" src="${base + p}" onerror="this.remove()">`).join('');
-    const pan = () => {
-      const d = row.scrollWidth - row.parentElement.clientWidth;
-      row.style.setProperty('--shift', (d > 0 ? -d : 0) + 'px');
-      row.style.setProperty('--x0', (d > 0 ? 0 : -d / 2) + 'px');
-      row.classList.toggle('still', d <= 0);
-    };
-    const ro = new ResizeObserver(pan); ro.observe(row); ro.observe(row.parentElement);
-    row.querySelectorAll('img').forEach(i => i.addEventListener('load', pan));
-    pans.push(ro);
-  }
+  if (!reduce) requestAnimationFrame(step);
 
   if (location.hash === '#pick') {
-    const all = [...document.querySelectorAll('.frow img,#thumb')];
-    const seen = {};
-    all.forEach(img => { const k = img.src.split('/').pop(); if (!(k in seen)) seen[k] = Object.keys(seen).length + 1; const n = seen[k]; const b = document.createElement('b'); b.textContent = n; b.style.cssText = 'position:absolute;top:8px;left:8px;z-index:5;background:#fff;color:#000;font:800 18px Inter;padding:2px 9px;border-radius:8px'; const p = img.parentElement; p.style.position = 'relative'; if (p.classList.contains('frow')) { const w = document.createElement('span'); w.style.cssText = 'position:relative;flex:none'; img.before(w); w.append(img, b); } else p.append(b); });
+    const tag = (img, n) => { const w = document.createElement('span'); w.style.cssText = 'position:relative;flex:none;display:block'; const b = document.createElement('b'); b.textContent = n; b.style.cssText = 'position:absolute;top:8px;left:8px;z-index:5;background:#fff;color:#000;font:800 18px Inter;padding:2px 9px;border-radius:8px'; if (img.id === 'thumb') { img.parentElement.append(b); return; } img.before(w); w.append(img, b); };
+    tag(document.getElementById('thumb'), 1);
+    document.querySelectorAll('.frow img').forEach(img => tag(img, img.dataset.n));
   }
   document.getElementById('yr').textContent = new Date().getFullYear();
 
